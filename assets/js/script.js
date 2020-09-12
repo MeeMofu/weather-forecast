@@ -1,3 +1,24 @@
+var cityList=[];
+
+function showCities(){
+    $("#cityList").html("");
+    $("#history").show();
+    cityList.forEach(function(cityL){
+        var nameDisplay = cityL.name.split(",")[0]+","+ cityL.name.split(",")[1]
+        var cityEl = $("<li>").addClass("list-group-item").text(nameDisplay)
+        $("#cityList").append(cityEl);
+    })
+}
+
+function loadMemory(){
+    var memory = JSON.parse(localStorage.getItem("cityList"));
+    if (memory) {
+        cityList = memory;
+        // console.log(cityList);
+        showCities();
+    }
+}
+
 latSearch=null;
 lonSearch=null;
 function getcitydetails(fqcn) {
@@ -41,22 +62,65 @@ $("#f_elem_city").autocomplete({
  });
  $("#f_elem_city").autocomplete("option", "delay", 100);
 
+function getWeatherForecast(lat, lon){
+    fetch('https://api.openweathermap.org/data/2.5/onecall?appid=4267c83e8a58c92d87def6417ce19501&lat='+lat+'&lon='+lon)
+    .then(function(respone){
+        return respone.json();
+    })
+    .then(function(response){
+        console.log(response);
+    })
+    .catch(function(error){
+        alert("Something went wrong. Error: " + error)
+    });
+}
+
+function displayWeather(){
+
+}
+
  $('#searchBar').on("submit", function(event){
     event.preventDefault();
+    // Exit if empty or invalid
+    if (latSearch == null || lonSearch ==null){
+        alert("Please enter a valid city");
+        return;
+    }
+
     //  save as object
     city = {
         name:$(this).find("input").val(),
         latitude:latSearch,
         longtitude:lonSearch
     }
-    console.log(city.name);
-    console.log(city.latitude);
 
-    //
-
-    
     // Clear fields
     $(this).find("input").val("");
     latSearch=null;
     lonSearch=null;
+
+    // Check if the field existed in the current list
+    var index = -1;
+    for (var i=0; i<cityList.length;i++){
+        if (cityList[i].name === city.name){
+          index = i;
+          break;
+        }    
+    }
+    
+    // If not, add to memory, also for case when there's nothing in array
+    if ((index===-1) || (cityList.length===0)){
+        cityList.push(city);
+        showCities();
+        localStorage.setItem("cityList", JSON.stringify(cityList));
+    }
+
+    // Call API
+    getWeatherForecast(city.latitude,city.longtitude);
+    displayWeather();
+
+    console.log(city.name);
+    console.log(city.latitude);
  });
+
+ loadMemory();
