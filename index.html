@@ -19,22 +19,22 @@
         </header>        
     </div>
 
-    <main class="container-fluid my-3 mx-2 mx-lg-5">
+    <main class="container-fluid my-4 mx-2 mx-lg-5">
         <div class="row">
-            <div id="listOfCity" class="col-4">
-                <form class="form-row align-items-center" id="searchBar">
-                    <div class="col-auto">
-                        <!-- <label class="sr-only" for="citySearch">City</label>
-                        <input class="form-control d-flex" type="search" id="citySearch" placeholder="Search city" aria-label="Search"> -->
-                        <!-- <form action="" method="post" name="form_citydetails" id="form_citydetails" enctype="multipart/form-data" onsubmit="return false;"> -->
-                           <input class="ff_elem form-control" type="text" name="ff_nm_from[]" placeholder="Search city" aria-label="Search" id="f_elem_city"/>
-                        <!-- </form> -->
+            <div id="listOfCity" class="col-4 col-xl-3" >
+                <form id="searchBar">
+                    <div class="d-flex" id="searchText">
+                        <input class="ff_elem form-control" type="text" name="ff_nm_from[]" placeholder="Search city" aria-label="Search" id="f_elem_city"/>
                     </div>
-                    <div class="col-1 p-0">
+                    <div id="searchButton">
                         <button class="btn btn-primary" type="submit"><span class="oi oi-magnifying-glass"></span></button>
-
                     </div>
                 </form>
+                <div class="card" style="display: none;">
+                    <h4 class="card-header bg-dark text-light">Cities</h4>
+                    <ul id="cityList" class="list-group list-group-flush"></ul>
+                  </div>
+                
             </div>
         </div>
     </main>

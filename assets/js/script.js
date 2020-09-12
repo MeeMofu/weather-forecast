@@ -28,11 +28,9 @@ $("#f_elem_city").autocomplete({
     minLength: 3,
     select: function (event, ui) {
         var selectedObj = ui.item;
-        // console.log(ui.item.label.split(",")[0]+","+ui.item.label.split(",")[1]);
         $("#f_elem_city").val(selectedObj.value);
         getcitydetails(selectedObj.value);
-
-        // return false;
+        return false;
     },
     open: function () {
         $(this).removeClass("ui-corner-all").addClass("ui-corner-top");
@@ -45,8 +43,19 @@ $("#f_elem_city").autocomplete({
 
  $('#searchBar').on("submit", function(event){
     event.preventDefault();
-    console.log($(this).find("input").val());
-    console.log(latSearch,lonSearch);
+    //  save as object
+    city = {
+        name:$(this).find("input").val(),
+        latitude:latSearch,
+        longtitude:lonSearch
+    }
+    console.log(city.name);
+    console.log(city.latitude);
+
+    //
+
+    
+    // Clear fields
     $(this).find("input").val("");
     latSearch=null;
     lonSearch=null;
