@@ -3,11 +3,11 @@ var cityList=[];
 function showCities(){
     $("#cityList").html("");
     $("#history").show();
-    cityList.forEach(function(cityL){
-        var nameDisplay = cityL.name.split(",")[0]+","+ cityL.name.split(",")[1]
-        var cityEl = $("<li>").addClass("list-group-item").text(nameDisplay)
+    for (var i=0;i<cityList.length;i++){
+        var nameDisplay = cityList[i].name.split(",")[0]+","+ cityList[i].name.split(",")[1]
+        var cityEl = $("<li>").addClass("list-group-item").text(nameDisplay).attr("data-city-id",i);
         $("#cityList").append(cityEl);
-    })
+    }
 }
 
 function loadMemory(){
@@ -119,8 +119,13 @@ function displayWeather(){
     getWeatherForecast(city.latitude,city.longtitude);
     displayWeather();
 
-    console.log(city.name);
-    console.log(city.latitude);
+ });
+
+ $('#cityList').on('click','li',function(){
+    // console.log($(this).attr("data-city-id"))
+    var index = $(this).attr("data-city-id");
+    getWeatherForecast(cityList[index].latitude,cityList[index].longtitude);
+
  });
 
  loadMemory();
