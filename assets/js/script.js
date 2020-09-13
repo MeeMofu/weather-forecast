@@ -134,6 +134,10 @@ function displayWeather(forecast){
  }
 
 function getWeatherForecast(lat, lon){
+    // hide search bar (if collaped)
+    $("#searchPannel").removeClass("show");
+
+    // Get weather API
     fetch('https://api.openweathermap.org/data/2.5/onecall?appid=4267c83e8a58c92d87def6417ce19501&exclude=minutely,hourly&units=imperial&lat='+lat+'&lon='+lon)
     .then(function(respone){
         return respone.json();
