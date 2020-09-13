@@ -21,3 +21,10 @@ header h1 {
     width:100%;
     grid-column: 1/span 1;
 }
+
+
+#currentDeg {
+    top:5px;
+    right: 5px;
+    font-size: 60px;
+}
