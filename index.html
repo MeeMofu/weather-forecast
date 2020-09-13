@@ -10,33 +10,47 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" />
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
-<body>
+<body class="">
     
     <div class="row no-gutters">
-        <header class="bg-dark text-light col-12">
+        <header class="bg-dark text-light col-12 ">
             <h1 class="d-none d-md-block text-center p-4">Weather Dashboard</h1>
-            <button type="button" class="d-block d-md-none btn btn-outline-light m-2"><span class="oi oi-magnifying-glass"></span></button>
+            <button type="button" class="d-block d-md-none btn btn-outline-light m-2" data-toggle="collapse" data-target="#searchPannel" aria-controls="navbarSupportedContent"><span class="oi oi-magnifying-glass" ></span></button>
         </header>        
     </div>
 
-    <main class="container-fluid my-4 mx-2 mx-lg-5">
-        <div class="row">
-            <div id="listOfCity" class="col-3" >
-                <form id="searchBar">
-                    <div class="d-flex" id="searchText">
-                        <input class="ff_elem form-control" type="text" name="ff_nm_from[]" placeholder="Search city" aria-label="Search" id="f_elem_city"/>
+    <main class="container-fluid py-0 py-md-4 px-2 px-lg-5">
+        <div class="row navbar-expand-md">
+            <div class="col-12 col-md-3 collapse navbar-collapse" id="searchPannel">
+                <div id="listOfCity" class="my-4" >
+                    <form id="searchBar">
+                        <div class="d-flex" id="searchText">
+                            <input class="ff_elem form-control" type="text" name="ff_nm_from[]" placeholder="Search city" aria-label="Search" id="f_elem_city"/>
+                        </div>
+                        <div id="searchButton">
+                            <button class="btn btn-primary" type="submit"><span class="oi oi-magnifying-glass"></span></button>
+                        </div>
+                    </form>
+                    <div class="card" id="history" style="display: none;">
+                        <h4 class="card-header bg-dark text-light">Cities</h4>
+                        <ul id="cityList" class="list-group list-group-flush"></ul>
                     </div>
-                    <div id="searchButton">
-                        <button class="btn btn-primary" type="submit"><span class="oi oi-magnifying-glass"></span></button>
-                    </div>
-                </form>
-                <div class="card" id="history" style="display: none;">
-                    <h4 class="card-header bg-dark text-light">Cities</h4>
-                    <ul id="cityList" class="list-group list-group-flush"></ul>
+                </div>
+
+            </div>
+            <div class="col-12 col-md-9">
+                <div id="current" class="col-12 bg-secondary my-4 mt-md-0"> test 1 </div>
+                <div id="nextDays" class="row justify-content-between no-gutters ">
+                    <div class="col-12 col-md-2 bg-secondary my-2"> Test1</div>
+                    <div class="col-12 col-md-2 bg-secondary my-2">Test</div>
+                    <div class="col-12 col-md-2 bg-secondary my-2">Test</div>
+                    <div class="col-12 col-md-2 bg-secondary my-2">Test</div>
+                    <div class="col-12 col-md-2 bg-secondary my-2">Test</div>
                 </div>
             </div>
         </div>
     </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" ></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>

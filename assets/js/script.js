@@ -5,7 +5,7 @@ function showCities(){
     $("#history").show();
     for (var i=0;i<cityList.length;i++){
         var nameDisplay = cityList[i].name.split(",")[0]+","+ cityList[i].name.split(",")[1]
-        var cityEl = $("<li>").addClass("list-group-item").text(nameDisplay).attr("data-city-id",i);
+        var cityEl = $("<li>").addClass("list-group-item btn-light").text(nameDisplay).attr("data-city-id",i);
         $("#cityList").append(cityEl);
     }
 }
@@ -14,7 +14,6 @@ function loadMemory(){
     var memory = JSON.parse(localStorage.getItem("cityList"));
     if (memory) {
         cityList = memory;
-        // console.log(cityList);
         showCities();
     }
 }
@@ -22,19 +21,12 @@ function loadMemory(){
 latSearch=null;
 lonSearch=null;
 function getcitydetails(fqcn) {
- 
-	// if (typeof fqcn == "undefined") fqcn = jQuery("#f_elem_city").val();
- 
-	cityfqcn = fqcn;
- 
-	if (cityfqcn) {
- 
-	    jQuery.getJSON("https://secure.geobytes.com/GetCityDetails?key=7c756203dbb38590a66e01a5a3e1ad96&callback=?&fqcn="+cityfqcn,
-                     function (data) {
-
-	            latSearch=data.geobyteslatitude;
-	            lonSearch=data.geobyteslongitude;  
-	            }
+	if (fqcn) {
+	    jQuery.getJSON("https://secure.geobytes.com/GetCityDetails?key=7c756203dbb38590a66e01a5a3e1ad96&callback=?&fqcn="+fqcn,
+            function (data) {
+                latSearch=data.geobyteslatitude;
+                lonSearch=data.geobyteslongitude;  
+            }
 	    );
 	}
 }
@@ -62,22 +54,25 @@ $("#f_elem_city").autocomplete({
  });
  $("#f_elem_city").autocomplete("option", "delay", 100);
 
+ function displayWeather(forecast){
+    var currentTime = moment().utc().add(forecast.timezone_offset,'seconds').format("dddd, MMMM Do YYYY, h:mm:ss a");
+    console.log(currentTime);
+    console.log(forecast)
+ }
+
 function getWeatherForecast(lat, lon){
-    fetch('https://api.openweathermap.org/data/2.5/onecall?appid=4267c83e8a58c92d87def6417ce19501&lat='+lat+'&lon='+lon)
+    fetch('https://api.openweathermap.org/data/2.5/onecall?appid=4267c83e8a58c92d87def6417ce19501&exclude=minutely,hourly&lat='+lat+'&lon='+lon)
     .then(function(respone){
         return respone.json();
     })
     .then(function(response){
-        console.log(response);
+        displayWeather(response);
     })
     .catch(function(error){
         alert("Something went wrong. Error: " + error)
     });
 }
 
-function displayWeather(){
-
-}
 
  $('#searchBar').on("submit", function(event){
     event.preventDefault();
@@ -117,7 +112,6 @@ function displayWeather(){
 
     // Call API
     getWeatherForecast(city.latitude,city.longtitude);
-    displayWeather();
 
  });
 
