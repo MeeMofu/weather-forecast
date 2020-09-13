@@ -93,7 +93,7 @@ function displayFuture(list,day){
         var tempMin =list[i].temp.min;
 
         // Created layout for 1 day, then string it (Alt+Z helps)
-        var divEL = $('<div>').html("<div class='row no-gutters justify-content-around'><div class='col-12 pl-3 pl-md-3'><p style='font-weight: bold;' class='pt-2'>" + time +"</p></div><div class='col-3 col-lg-12'><div class='ml-5 mb-2 ml-md-4 ml-lg-4 '><i class='"+ icon +"' style='font-size: 80px; color: darkgray;' id='currentIcon'> </i></div></div><div class='col-5 col-lg-12 pl-2 mb-2'><p class='my-2'>Max: " + tempMax + "&deg;F</p><p class='mb-2'>Min: "+ tempMin + "&deg;F</p><p>Humidity: " + humid + "%</p></div></div>")    
+        var divEL = $('<div>').html("<div class='row no-gutters justify-content-around'><div class='col-12 pl-3 pl-md-3'><p style='font-weight: bold;' class='pt-2'>" + time +"</p></div><div class='col-3 col-lg-12'><div class='ml-2 ml-xl-4 ml-sm-5 mb-2 ml-lg-1 ml-xl-3'><i class='"+ icon +"' style='font-size: 75px; color: darkgray;' id='currentIcon'> </i></div></div><div class='col-5 col-lg-12 pl-2 mb-2'><p class='my-2'>Max: " + tempMax + "&deg;F</p><p class='mb-2'>Min: "+ tempMin + "&deg;F</p><p>Humidity: " + humid + "%</p></div></div>")    
         divEL.addClass("col-12 col-lg-2 my-2 rounded nextDay border border-primary").attr("style","background-color: lightcyan;");
         // append element to container
         $('#nextDays').append(divEL)
