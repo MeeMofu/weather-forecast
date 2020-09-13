@@ -73,19 +73,35 @@ function iconName(weather){
     }
 }
 function isDay(icon){
-    if (icon==='n') return "night";
+    if (icon==='n') return "night-alt";
     else return "day";
 }
 
- function displayWeather(forecast){
-    var currentTime = moment().utc().add(forecast.timezone_offset,'seconds').format("ddd, MMM Do YYYY");
+function displayFuture(list,day){
+    $('#nextDays').html("");
+
+    for (var i=1;i<6;i++){
+        // Generate icon
+        var icon = "wi pr-5 wi-day-"+iconName(list[i].weather[0].main);
+        var time = day.add(i,'d').format("L");
+        var humid = list[i].humidity;
+        var tempMax =list[i].temp.max;
+        var tempMin =list[i].temp.min;
+
+        // Created layout for 1 day, then string it (Alt+Z helps)
+    }
+
+}
+
+function displayWeather(forecast){
+    var currentTime = moment().utc().add(forecast.timezone_offset,'seconds');
     var nameDisplay = cityList[index].name.split(",")[0]+","+ cityList[index].name.split(",")[1]
     console.log(forecast);
     // Update to current weather
     $("#city").text(nameDisplay);
-    $("#date").text(currentTime);
+    $("#date").text(currentTime.format("ddd, MMM Do YYYY"));
     $("#currentHumidity").text(forecast.current.humidity+"%");
-    $("#currentWind").text(forecast.current.wind_speed+"mph");
+    $("#currentWind").text(Math.round(forecast.current.wind_speed * 10) / 10+"mph");
     $("#currentUV").text(forecast.current.uvi);
     
     // Color UVI
@@ -94,14 +110,17 @@ function isDay(icon){
     // Change icon
     var icon = "wi pr-5 wi-"+isDay(forecast.current.weather[0].icon[2])+"-"+iconName(forecast.current.weather[0].main);
     // Special case
-    if (icon==="wi pr-5 wi-day-clear") icon="wi pr-5 wi-day-sunny";
-    if (icon==="wi pr-5 wi-night-sunny") icon="wi pr-5 wi-night-clear";
+    if (icon==="wi pr-5 wi-night-alt-sunny") icon="wi pr-5 wi-night-clear";
+    if (icon==="wi pr-5 wi-night-alt-fog") icon="wi pr-5 wi-night-fog";
 
     $("#currentIcon").removeClass().addClass(icon);
     $("#currentDeg").html(Math.floor(forecast.current.temp)+"&deg;");
+
     // Format the description to have first uppercase
     var descrip = forecast.current.weather[0].description;
     $('#description').text(descrip[0].toUpperCase()+descrip.substring(1));
+
+    displayFuture(forecast.daily,currentTime);
 
     $("#weatherPannel").show();
  }
