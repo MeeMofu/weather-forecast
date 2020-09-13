@@ -130,12 +130,15 @@ function displayWeather(forecast){
 
     displayFuture(forecast.daily,currentTime);
 
+    // Show weather pannel
     $("#weatherPannel").show();
+
+    // hide search bar (if collaped)
+    $("#searchPannel").removeClass("show");
  }
 
 function getWeatherForecast(lat, lon){
-    // hide search bar (if collaped)
-    $("#searchPannel").removeClass("show");
+    
 
     // Get weather API
     fetch('https://api.openweathermap.org/data/2.5/onecall?appid=4267c83e8a58c92d87def6417ce19501&exclude=minutely,hourly&units=imperial&lat='+lat+'&lon='+lon)
@@ -144,6 +147,7 @@ function getWeatherForecast(lat, lon){
     })
     .then(function(response){
         displayWeather(response);
+        
     })
     .catch(function(error){
         alert("Something went wrong. Error: " + error)
