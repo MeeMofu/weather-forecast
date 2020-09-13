@@ -1,3 +1,4 @@
+var index=0;
 var cityList=[];
 
 function showCities(){
@@ -52,16 +53,61 @@ $("#f_elem_city").autocomplete({
         $(this).removeClass("ui-corner-top").addClass("ui-corner-all");
     }
  });
+
+ function uvLevel(level){
+
+ }
+
  $("#f_elem_city").autocomplete("option", "delay", 100);
 
+function iconName(weather){
+    // Find name of the icon by result
+    switch (weather){
+        case "Thunderstorm": return "thunderstorm";
+        case "Drizzle": return "sprinkle";
+        case "Rain": return "rain";
+        case "Snow": return "snow";
+        case "Clear": return "sunny";
+        case "Clouds": return "cloudy";
+        default: return "fog";
+    }
+}
+function isDay(icon){
+    if (icon==='n') return "night";
+    else return "day";
+}
+
  function displayWeather(forecast){
-    var currentTime = moment().utc().add(forecast.timezone_offset,'seconds').format("dddd, MMMM Do YYYY, h:mm:ss a");
-    console.log(currentTime);
-    console.log(forecast)
+    var currentTime = moment().utc().add(forecast.timezone_offset,'seconds').format("ddd, MMM Do YYYY");
+    var nameDisplay = cityList[index].name.split(",")[0]+","+ cityList[index].name.split(",")[1]
+    console.log(forecast);
+    // Update to current weather
+    $("#city").text(nameDisplay);
+    $("#date").text(currentTime);
+    $("#currentHumidity").text(forecast.current.humidity+"%");
+    $("#currentWind").text(forecast.current.wind_speed+"mph");
+    $("#currentUV").text(forecast.current.uvi);
+    
+    // Color UVI
+    uvLevel(forecast.current.uvi);
+
+    // Change icon
+    var icon = "wi pr-5 wi-"+isDay(forecast.current.weather[0].icon[2])+"-"+iconName(forecast.current.weather[0].main);
+    // Special case
+    if (icon==="wi pr-5 wi-day-clear") icon="wi pr-5 wi-day-sunny";
+    if (icon==="wi pr-5 wi-night-sunny") icon="wi pr-5 wi-night-clear";
+
+    $("#currentIcon").removeClass().addClass(icon);
+    $("#currentDeg").html(Math.floor(forecast.current.temp)+"&deg;");
+    // Format the description to have first uppercase
+    var descrip = forecast.current.weather[0].description;
+    $('#description').text(descrip[0].toUpperCase()+descrip.substring(1));
+
+    $("#weatherPannel").show();
  }
 
 function getWeatherForecast(lat, lon){
-    fetch('https://api.openweathermap.org/data/2.5/onecall?appid=4267c83e8a58c92d87def6417ce19501&exclude=minutely,hourly&lat='+lat+'&lon='+lon)
+    fetch('https://api.openweathermap.org/data/2.5/onecall?appid=4267c83e8a58c92d87def6417ce19501&exclude=minutely,hourly&units=imperial&lat='+lat+'&lon='+lon)
     .then(function(respone){
         return respone.json();
     })
@@ -95,29 +141,30 @@ function getWeatherForecast(lat, lon){
     lonSearch=null;
 
     // Check if the field existed in the current list
-    var index = -1;
+    index = -1;
     for (var i=0; i<cityList.length;i++){
         if (cityList[i].name === city.name){
           index = i;
           break;
         }    
     }
-    
     // If not, add to memory, also for case when there's nothing in array
     if ((index===-1) || (cityList.length===0)){
+        index=cityList.length;
         cityList.push(city);
         showCities();
         localStorage.setItem("cityList", JSON.stringify(cityList));
+        console.log(index);
     }
 
     // Call API
-    getWeatherForecast(city.latitude,city.longtitude);
+    getWeatherForecast(cityList[index].latitude,cityList[index].longtitude);
 
  });
 
  $('#cityList').on('click','li',function(){
     // console.log($(this).attr("data-city-id"))
-    var index = $(this).attr("data-city-id");
+    index = $(this).attr("data-city-id");
     getWeatherForecast(cityList[index].latitude,cityList[index].longtitude);
 
  });

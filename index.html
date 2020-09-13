@@ -38,38 +38,40 @@
                 </div>
 
             </div>
-            <div class="col-12 col-md-9">
-                <div id="current" class="col-12 border border-secondary my-4 mt-md-0 p-0"> 
+            <div id="weatherPannel" class="col-12 col-md-9"  >
+                <div class="col-12 border border-secondary my-4 mt-md-0 p-0">
                     <div class="row no-gutters">
                         <div class="col-12 col-sm-6">
                             <div class="col-12 pb-3">
-                                <h2>Houston,TX</h2>
-                                <h4>Sep, 12, 2020</h4>
+                                <h2 id="city">Houston,TX</h2>
+                                <h4 id="date">Sep, 12, 2020</h4>
                             </div>
-                            <div class="row p-2 align-self-end text-center">
+                            <div class="row p-4 align-self-end text-center">
                                 <div class="col-4">
-                                    <h4>47%</h4>
+                                    <h4 id="currentHumidity">47%</h4>
                                     <p>Humidity</p>
                                 </div>
                                 <div class="col-4 border-left border-right">
-                                    <h4>4.7mph</h4>
+                                    <h4 id="currentWind">4.7mph</h4>
                                     <p>Wind</p>
                                 </div>
                                 <div class="col-4 align">
-                                    <h4>9.5</h4>
+                                    <h4 id="currentUV">9.5</h4>
                                     <p>UV Index</p>
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-9 col-sm-6 mx-auto mx-sm-0">
-                            <div class="row no-gutters position-relative">
-                                <i class="wi wi-night-sleet mx-auto mt-3" style="font-size: 100px;"></i>
-                                <h2 class="position-absolute" id="currentDeg">73&deg;</h2>
+                            <div class="row no-gutters">
+                                <div class="mx-auto mt-5 position-relative">
+                                    <i class="wi wi-day-rain pr-5" style="font-size: 100px; color: darkgray;" id="currentIcon"></i>
+                                    <h2 class="position-absolute" id="currentDeg">73&deg;</h2>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="mx-auto pt-4">
-                                    <h3>Description</h3>
+                                    <h3 id="description">Description</h3>
                                 </div>
                             </div>
                         </div>
