@@ -55,7 +55,10 @@ $("#f_elem_city").autocomplete({
  });
 
  function uvLevel(level){
-
+    $("#currentUV").removeClass();
+    if (level<3) $("#currentUV").addClass("bg-success text-white rounded");
+    else if (level<7) $("#currentUV").addClass("bg-warning text-dark rounded");
+    else $("#currentUV").addClass("bg-danger text-white rounded");
  }
 
  $("#f_elem_city").autocomplete("option", "delay", 100);
@@ -73,6 +76,7 @@ function iconName(weather){
     }
 }
 function isDay(icon){
+    // Check if it's day or night but API's icon 
     if (icon==='n') return "night-alt";
     else return "day";
 }
@@ -81,7 +85,7 @@ function displayFuture(list,day){
     $('#nextDays').html("");
 
     for (var i=1;i<6;i++){
-        // Generate icon
+        // Generate data for 1 day
         var icon = "wi pr-5 wi-day-"+iconName(list[i].weather[0].main);
         var time = day.add(i,'d').format("L");
         var humid = list[i].humidity;
@@ -89,6 +93,10 @@ function displayFuture(list,day){
         var tempMin =list[i].temp.min;
 
         // Created layout for 1 day, then string it (Alt+Z helps)
+        var divEL = $('<div>').html("<div class='row no-gutters justify-content-around'><div class='col-12 pl-3 pl-md-3'><p style='font-weight: bold;' class='pt-2'>" + time +"</p></div><div class='col-3 col-lg-12'><div class='ml-5 mb-2 ml-md-4 ml-lg-4 '><i class='"+ icon +"' style='font-size: 80px; color: darkgray;' id='currentIcon'> </i></div></div><div class='col-5 col-lg-12 pl-2 mb-2'><p class='my-2'>Max: " + tempMax + "&deg;F</p><p class='mb-2'>Min: "+ tempMin + "&deg;F</p><p>Humidity: " + humid + "%</p></div></div>")    
+        divEL.addClass("col-12 col-lg-2 my-2 rounded nextDay border border-primary").attr("style","background-color: lightcyan;");
+        // append element to container
+        $('#nextDays').append(divEL)
     }
 
 }
@@ -96,7 +104,7 @@ function displayFuture(list,day){
 function displayWeather(forecast){
     var currentTime = moment().utc().add(forecast.timezone_offset,'seconds');
     var nameDisplay = cityList[index].name.split(",")[0]+","+ cityList[index].name.split(",")[1]
-    console.log(forecast);
+    
     // Update to current weather
     $("#city").text(nameDisplay);
     $("#date").text(currentTime.format("ddd, MMM Do YYYY"));
